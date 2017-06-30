@@ -5,6 +5,7 @@ from PyQt5.QtNetwork import QNetworkProxy
 from PyQt5.QtWidgets import QApplication
 from common.settings import settings, Settings
 from webkit.browser import Browser
+from webkit.app import g_app
 
 
 def set_proxy(host, port):
@@ -24,7 +25,9 @@ if __name__ == "__main__":
         set_proxy(proxy_host, proxy_port)
 
     browser = Browser(settings)
-
+    g_app.browser = browser
+    g_app.settings = settings
+    g_app.app = app
     html_path = settings["in_html"]
     cookies_path = settings["in_cookies"]
     if html_path and cookies_path:
@@ -35,5 +38,7 @@ if __name__ == "__main__":
             cookies = f.read()
         browser.load_html(html, url, cookies)
     else:
-        browser.load_url("https://mail.qq.com/cgi-bin/loginpage")
+        # browser.load_url("https://mail.qq.com/cgi-bin/loginpage")
+        url ="https://ui.ptlogin2.qq.com/cgi-bin/login?style=9&appid=522005705&daid=4&s_u…ogin=%E8%AE%B0%E4%BD%8F%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81&pt_no_onekey=1"
+        browser.load_url("https://mail.qq.com")
     app.exec_()

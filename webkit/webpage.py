@@ -17,8 +17,9 @@ class WebPage(QWebPage):
         super(WebPage, self).__init__()
         self._settings = settings
         self.loadFinished.connect(self._on_load_finished)
-        self.cookie_jar = CookieJar()
-        self.networkAccessManager().setCookieJar(self.cookie_jar)
+        # set cookie_jar in network_access_manager
+        # self.cookie_jar = CookieJar()
+        # self.networkAccessManager().setCookieJar(self.cookie_jar)
         self.qq_login_status = QQMailLoginStatus.LOGIN_WITH_USER_INFO
 
     def set_cookies(self, cookies):
@@ -61,3 +62,7 @@ class WebPage(QWebPage):
             cookies_data = self.cookie_jar.to_qt_cookies()
             with open(out_cookies_path, "w") as f:
                 f.write(cookies_data)
+
+    def userAgentForUrl(self, url):
+        android_ua = "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.109 Mobile Safari/537.36"
+        return android_ua
