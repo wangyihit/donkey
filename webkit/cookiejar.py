@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding=utf-8
-from PyQt4.QtCore import QByteArray
-from PyQt4.QtNetwork import QNetworkCookie, QNetworkCookieJar
+from PyQt5.QtCore import QByteArray
+from PyQt5.QtNetwork import QNetworkCookie, QNetworkCookieJar
 '''
 cookie file format
 

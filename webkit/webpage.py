@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding=utf-8
 
-from PyQt4.QtWebKit import QWebPage, QWebFrame
+from PyQt5.QtWebKitWidgets import QWebPage, QWebFrame
 from cookiejar import CookieJar
 from jslib import js_lib
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding=utf-8
 
-from PyQt4.QtWebKit import QWebView
+from PyQt5.QtWebKitWidgets import QWebView
 
 
 class WebView(QWebView):

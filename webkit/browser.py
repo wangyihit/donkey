@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding=utf-8
 
-from PyQt4.QtCore import QUrl
+from PyQt5.QtCore import QUrl
 from webpage import WebPage
 from webview import WebView
 

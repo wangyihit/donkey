@@ -2,7 +2,7 @@
 # encoding=utf-8
 
 import argparse
-from PyQt4.QtWebKit import QWebSettings
+from PyQt5.QtWebKit import QWebSettings
 
 settings = None
 

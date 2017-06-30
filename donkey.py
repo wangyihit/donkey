@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding=utf-8
 import sys
-from PyQt4.QtNetwork import QNetworkProxy
-from PyQt4.QtGui import QApplication
+from PyQt5.QtNetwork import QNetworkProxy
+from PyQt5.QtWidgets import QApplication
 from common.settings import settings, Settings
 from webkit.browser import Browser
 
