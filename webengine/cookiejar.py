@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # encoding=utf-8
-from PyQt5.QtCore import QByteArray
-from PyQt5.QtNetwork import QNetworkCookie, QNetworkCookieJar
+from PySide6.QtCore import QByteArray
+from PySide6.QtNetwork import QNetworkCookie, QNetworkCookieJar
+from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineCookieStore
+from PySide6.QtNetwork import QNetworkCookie
 '''
 cookie file format
 
@@ -28,6 +30,15 @@ class CookieJar(QNetworkCookieJar):
 
     def __init__(self):
         super(CookieJar, self).__init__()
+        self._webengine_profile = QWebEngineProfile.defaultProfile()
+        self._webengine_profile.setPersistentCookiesPolicy(QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
+        self._cookie_store = self._webengine_profile.cookieStore()
+        # self.connect(self._cookie_store, QWebEngineCookieStore.cookieAdded, self._handle_add_cookie)
+        self._cookie_store.cookieAdded.connect(self._handle_add_cookie)
+
+    def _handle_add_cookie(self, cookie: QNetworkCookie):
+        self.insertCookie(cookie)
+        print("data: %s" % cookie)
 
     def to_curl_cookies(self):
         cookies = self.allCookies()
@@ -39,7 +50,7 @@ class CookieJar(QNetworkCookieJar):
                     True,
                     cookie.path(),
                     cookie.isSecure(),
-                    cookie.expirationDate().toTime_t(),
+                    cookie.expirationDate().toSecsSinceEpoch(),
                     cookie.name(),
                     cookie.value(),
                 )
@@ -57,3 +68,4 @@ class CookieJar(QNetworkCookieJar):
         b = QByteArray()
         cookies = QNetworkCookie.parseCookies(b.append(cookie_data))
         self.setAllCookies(cookies)
+

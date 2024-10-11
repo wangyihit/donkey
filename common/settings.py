@@ -2,7 +2,7 @@
 # encoding=utf-8
 
 import argparse
-from PyQt5.QtWebKit import QWebSettings
+# from PySide6.QtWebKit import QWebSettings
 
 settings = None
 
@@ -22,12 +22,6 @@ class Settings(object):
         parser.add_argument("--out_html", default="", type=str)
         self.parser = parser
         self.args = parser.parse_args()
-        self._set_webkit_settings()
-
-    @staticmethod
-    def _set_webkit_settings():
-        webkit_settings = QWebSettings.globalSettings()
-        webkit_settings.setAttribute(QWebSettings.DeveloperExtrasEnabled, True)
 
     def __getitem__(self, item):
         return getattr(self.args, item)

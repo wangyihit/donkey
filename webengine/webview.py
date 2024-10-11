@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # encoding=utf-8
 
-from PyQt5.QtWebKitWidgets import QWebView
+from PySide6.QtWebEngineWidgets import QWebEngineView
 
 
-class WebView(QWebView):
+class WebView(QWebEngineView):
 
     def __init__(self, settings):
         super(WebView, self).__init__()
