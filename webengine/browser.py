@@ -25,6 +25,7 @@ class Browser(object):
 
 
     def load_url(self, url, show_ui=True):
+        self._web_page.load_cookies()
         self._web_view.load(QUrl(url))
         if show_ui is True:
             self._web_view.show()

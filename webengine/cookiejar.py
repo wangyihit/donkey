@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding=utf-8
+import logging
 from PySide6.QtCore import QByteArray
 from PySide6.QtNetwork import QNetworkCookie, QNetworkCookieJar
 from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineCookieStore
@@ -38,7 +39,7 @@ class CookieJar(QNetworkCookieJar):
 
     def _handle_add_cookie(self, cookie: QNetworkCookie):
         self.insertCookie(cookie)
-        print("data: %s" % cookie)
+        # logging.info("insert cookie: %s" % cookie)
 
     def to_curl_cookies(self):
         cookies = self.allCookies()
@@ -64,8 +65,13 @@ class CookieJar(QNetworkCookieJar):
             data.append(str(cookie.toRawForm()))
         return "\n".join(data)
 
-    def load_qt_cookie(self, cookie_data):
-        b = QByteArray()
-        cookies = QNetworkCookie.parseCookies(b.append(cookie_data))
-        self.setAllCookies(cookies)
+    def load_qt_cookie(self, cookie_data:str):
+        lines = cookie_data.split("\n")
+        for line in lines:
+            if line == "":
+                continue
+            print(line)
+            b = QByteArray()
+            cookies = QNetworkCookie.parseCookies(b.append(line.encode()))
+            self.setAllCookies(cookies)
 
