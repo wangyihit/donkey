@@ -28,10 +28,9 @@ if __name__ == "__main__":
     g_app.settings = settings
     g_app.app = app
 
-    browser.load_url("https://www.douyin.com/follow")
+    # browser.load_url("https://www.douyin.com/follow")
 
-    # html_path = settings["in_html"]
-    # cookies_path = settings["in_cookies"]
-    # browser.load_url("https://sugh.szu.edu.cn/")
+    html_path = settings["in_html"]
+    browser.load_url("https://sugh.szu.edu.cn/")
 
     app.exec()
