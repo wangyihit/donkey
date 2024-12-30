@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding=utf-8
+import json
 import logging
 
 import tldextract
@@ -45,7 +46,7 @@ class CookieJar(QNetworkCookieJar):
 
     def handle_add_cookie(self, cookie: QNetworkCookie):
         self.insertCookie(cookie)
-        logging.info("insert cookie: %s" % cookie)
+        # logging.info("insert cookie: %s" % cookie)
 
 
     @staticmethod
@@ -56,8 +57,8 @@ class CookieJar(QNetworkCookieJar):
             cookie.path(),
             cookie.isSecure(),
             cookie.expirationDate().toSecsSinceEpoch(),
-            cookie.name(),
-            cookie.value(),
+            cookie.name().toStdString(),
+            cookie.value().toStdString()
         )
         return data
 
@@ -102,18 +103,22 @@ class CookieJar(QNetworkCookieJar):
         cookies = self.allCookies()
         data = []
         for cookie in cookies:
-            data.append(str(cookie.toRawForm()))
-        return "\n".join(data)
+            line = cookie.toRawForm()
+            data.append(line.toStdString())
+        return json.dumps(data, indent=4)
 
     def load_qt_cookie(self, cookie_data:str):
-        lines = cookie_data.split("\n")
-        for line in lines:
-            if line == "":
+        cookies = json.loads(cookie_data)
+        cookie_list = []
+        for cookie in cookies:
+            if cookie == "":
                 continue
-            print(line)
             b = QByteArray()
-            cookies = QNetworkCookie.parseCookies(b.append(line.encode()))
-            self.setAllCookies(cookies)
+            network_cookies = QNetworkCookie.parseCookies(b.append(cookie.encode("utf-8")))
+            cookie_list += network_cookies
+        for cookie in cookie_list:
+            self._cookie_store.setCookie(cookie)
+        return
 
     def get_network_cookies(self, host_name:str=None)->list[QNetworkCookie]:
         cookies = self.network_cookies(host_name)
@@ -128,6 +133,9 @@ class CookieJar(QNetworkCookieJar):
         one_year = QDateTime.currentDateTime().addDays(36500)
         network_cookie.setExpirationDate(one_year)
         # self._cookie_store.setCookie(network_cookie)
+        self.insertCookie(network_cookie)
+
+    def add_network_cookie(self, network_cookie:QNetworkCookie):
         self.insertCookie(network_cookie)
 
     def set_cookies(self, cookies):

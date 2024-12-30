@@ -3,7 +3,9 @@
 
 from PySide6.QtCore import QUrl, QObject, QDate, QDateTime
 from PySide6.QtNetwork import QNetworkCookie
-from PySide6.QtWebEngineCore import QWebEngineProfile
+from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEnginePage
+from PySide6.QtWebEngineWidgets import QWebEngineView
+
 from webengine.cookiejar import CookieJar
 from webengine.webpage import WebPage
 from webengine.webview import WebView
@@ -14,14 +16,14 @@ class Browser(QObject):
     ios_default = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1";
     pc_default = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36";
 
-    def __init__(self, settings):
+    def __init__(self, settings, webpage:QWebEnginePage=None, webview:QWebEngineView=None):
         super(Browser, self).__init__()
         self._settings = settings
         self._webengine_profile = QWebEngineProfile.defaultProfile()
         self._webengine_profile.setPersistentCookiesPolicy(QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
         # QWebEngineProfile.defaultProfile().setHttpUserAgent(self.pc_default)
-        self._web_page = WebPage(settings)
-        self._web_view = WebView(settings)
+        self._web_page = webpage if webpage is not None else WebPage(settings)
+        self._web_view = webview if webview is not None else WebView(settings)
         self._web_view.setPage(self._web_page)
 
 

@@ -15,7 +15,7 @@ class RuiShuiBrowser(Browser):
         self._cookie_dict = dict()
         self.scripts: list[str] = []
 
-    # slot
+    # slots
     def on_load_finished(self, url):
         logging.info("load finished")
         for script in self.scripts:

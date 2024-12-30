@@ -33,7 +33,6 @@ def _main():
     html = resp.content.decode('utf-8')
     page_parser = PageParser(html, url)
     js_scripts = page_parser.parse()
-    # _load_page(url, html)
 
     settings = Settings()
 
@@ -43,8 +42,8 @@ def _main():
         browser.add_cookie(name=k, value=v, path="/", domain="sugh.szu.edu.cn", secure=True, http_only=True,)
     current_cookies = browser.get_network_cookies()
     logging.info(f"current cookies: {current_cookies}")
-    browser.load_html(html='''<html></html>''', url=url)
-    # browser.load_url(url)
+    # browser.load_html(html='''<html></html>''', url=url)
+    browser.load_url(url)
     worker = RuiShuiWorker()
     worker.connect_browser(browser)
     t = threading.Thread(target=worker_func, args=(worker,))

@@ -13,13 +13,15 @@ class Settings(object):
         parser = argparse.ArgumentParser()
         parser.add_argument("--proxy_host", default="", type=str)
         parser.add_argument("--proxy_port", default=0, type=int)
-        parser.add_argument("--curl_cookies", default="cookies.txt", type=str)
+        parser.add_argument("--curl_cookies", default="curl_cookies.txt", type=str)
         parser.add_argument("--qt_cookies", default="qt_cookies.txt", type=str)
         parser.add_argument("--cache_path", default="", type=str)
         parser.add_argument("--uname", default="", type=str)
         parser.add_argument("--upass", default="", type=str)
         parser.add_argument("--in_html", default="", type=str)
         parser.add_argument("--out_html", default="", type=str)
+        parser.add_argument("--show_ui", default=True, type=bool,)
+        parser.add_argument("--url", default="https://www.douyin.com", type=str,)
         self._parser = parser
         self._args = parser.parse_args()
 
